@@ -165,9 +165,45 @@ d3.csv("assets/data/data.csv").then(function(data) {
         .classed("axis-text", true)
         .text("Health Insurance Coverage (precent)");
         
-    // Update tool tip
+    // Update tool tip function 
     var circlesGroup = updateToolTip(chosenXAxis, circlesGroup_;)
-})
+
+    // X axis labels event listener
+    labelsGroup.selectAll("text")
+        .on("click", function() {
+            // get value of selection
+            var values = d3.select(this).attr("value");
+            if (value !== chosenXAxis) {
+                // replaces chosenXAxis with value
+                chosenXAxis = value;
+                // updates x scale for new data
+                xLinearScale = xScale(data, chosenXAxis);
+                // updates x axis with transition
+                xAxis = renderAxes(xLinearScale, xAxis);
+                // updates circles with new x values 
+                circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
+                // updates tooltips with new info
+                circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+                // changes classes to change bold text
+                if (chosenXAxis === "age") {
+                    ageLabel
+                        .classed("active", true)
+                        .classed("inactive", false);
+                    incomeLengthLabel
+                        .classed("active", false)
+                        .classed("inactive", true);    
+                }
+                else {
+                    ageLabel
+                        .classed("active", false)
+                        .classed("inactive", true)
+                    incomeLengthLabel
+                        .classed("active", true)
+                        .classed("inactive", false);    
+                }
+            }
+        });
+});
 
 
 // function makeResponsive() {
