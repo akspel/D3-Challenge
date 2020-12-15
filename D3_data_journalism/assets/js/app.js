@@ -196,7 +196,12 @@ d3.csv("assets/data/data.csv").then(function(data, err) {
     //     .attr("fill", "blue")
     //     .attr("opacity", ".5")
     var theCircles = svg.selectAll("g theCircles").data(data).enter()
-        
+        .append("circle")
+        .attr("cx", d => xLinearScale(d[currentX]))
+        .attr("cy", d => yLinearScale(d[currentY]))
+        .attr("r", 10)
+        .attr("fill", "blue")
+        .attr("opacity", ".5")
         
     // Create group for 2 x axis labels
     var labelsGroup = chartGroup.append("g")
